@@ -1,0 +1,41 @@
+{% extends 'booktest/base.html' %}
+{% block title %}
+    Register
+{% endblock %}
+
+{% block style %}
+    .container{
+        margin: 200px auto 0;
+    }
+    .head{
+        margin-left: 600px;
+    }
+    .body{
+        margin-left: 600px;
+    }
+{% endblock %}
+
+{% block body %}
+
+        <div class="container">
+        <div class="head">Register</div>
+        <div class="body">
+            <form action="{% url 'register' %}" method="POST">
+                <input type="text" name="username" placeholder="Username"><br/>
+                <input type="password" name="password" placeholder="Password"><br/>
+                男：<input type="radio" name="sex" value="1">
+                女：<input type="radio" name="sex" value="0">
+                birth: <input type="date" name="bith" >
+                {% csrf_token %}
+                <input type="submit" value="Login">
+                <input type="reset" value="reset">
+                <input id='register' type="button" value="register">
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+$('#register').click(function(){
+        window.location.href = '{% url 'register' %}'
+    })
+{% endblock %}

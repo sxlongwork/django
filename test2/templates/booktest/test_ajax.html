@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test_ajax</title>
+    <script src="/static/js/jquery-1.11.3.min.js"></script>
+    <script>
+        $(function(){
+            $('#bajax').click(function(){
+                $.ajax({
+                    'url': '/ajax_check',
+                    'dataType': 'json'
+                }).success(function(data){
+                    if(data.res == "success"){
+                        location.href = '/index'
+                    }
+                    else{
+                        $('#message').show().html('用户名或密码错误')
+                    }
+                })
+            })
+
+        })
+    </script>
+    <style>
+        #message {
+            display: none;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<input type="button" id="bajax" value="ajax go">
+<div id="message"></div>
+
+</body>
+</html>

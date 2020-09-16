@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>template</title>
+    <style>
+        .row1{
+            color: red;
+        }
+        .row2{
+            color: greenyellow;
+        }
+    </style>
+</head>
+<body>
+{{ name|safe }}
+<hr>
+{% autoescape off %}
+    {{ name }}
+{% endautoescape %}
+<hr>
+{{ list.2 }}
+<hr/>
+cpuinfo.user:{{ cpuinfo }}
+<hr/>
+cpuinfo.system:{{ cpuinfo.system }}
+<hr/>
+cpuinfo.interrupt:{{ cpuinfo.interrupt }}
+<hr/>
+cpinfo.idle:{{ cpuinfo.idle }}
+<hr/>
+cpuinfo.iowait:{{ cpuinfo.iowait }}
+<hr/>
+{% csrf_token %}
+{#多行注释，忽略comment内的内容#}
+{% comment %}
+{{ name }}
+{% endcomment %}
+<hr/>
+{% for one in list %}
+    {% if forloop.first %}
+        <li style="color: pink">{{ forloop.counter }}--{{ one }}</li>
+    {% elif forloop.last %}
+        <li style="color: red">{{ forloop.counter }}--{{ one }}</li>
+        {% else %}
+        <li style="color: #39ac6a">{{ forloop.counter }}--{{ one }}</li>
+    {% endif %}
+{#    {{ one }}#}
+{% endfor %}
+<hr />
+{% for one in list %}
+    <li class="{% cycle 'row1' 'row2' %}">{{ one }}</li>
+{% endfor %}
+<hr />
+{% for key,value in dict.items %}
+    {{ key }}--{{ value }}<br />
+{% endfor %}
+<hr/>
+{% load my_tag %}
+{{ age|my_add:10 }}
+<hr />
+{{ 'hello '|my_str:'tom' }}
+<hr />
+{% if  age|get_num:2  %}
+    {{ age }}
+    {% else %}
+    {{ age|get_num:2 }}
+{% endif %}
+<hr />
+{% get_str 'tom' 'info' '已成年' %}
+<hr />
+{% get_max 10 30 5 %}
+<hr />
+{% if 'ab' in 'abcdef' %}
+    ab is in abcdef
+{% endif %}
+
+</body>
+</html>

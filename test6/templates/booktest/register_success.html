@@ -1,0 +1,16 @@
+{% extends 'booktest/base.html' %}
+{% block title %}
+    Register Success
+{% endblock %}
+
+{% block style %}
+    .gologin{
+        text-deduration: none;
+        font-size: 20px;
+    }
+{% endblock %}
+
+{% block body %}
+    {{ message }}
+    <a class="gologin" href="{% url 'index' %}">去登录</a>
+{% endblock %}

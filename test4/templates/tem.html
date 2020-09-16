@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>template</title>
+</head>
+<body>
+username: {{name|default:'long'}}<br>
+
+sex: {{sex|capfirst}}<br>
+habby: {{habby|cut:'ong'}}<br>
+
+
+date: {{date}<br>
+age: {{age|add:3}}<br>
+{% if age >= 18 %}
+    已经成年了<br>
+{% else %}
+    没有成年<br>
+{% endif %}
+<br>
+list: {{list.0}},{{list.1}},{{list.2}}<br>
+{% for one in list %}
+    {{ one }}
+{% endfor %}
+<br>
+<br>
+{% for data in list reversed %}      <!--reversed可以实现倒序-->
+    {% if forloop.first %}
+        <span style="color: red">{{forloop.counter}}、{{ data }}</span><br>
+    {% elif forloop.last %}
+        <span style="color: green">{{forloop.counter}}、{{ data }}</span>
+    {% else %}
+        <span>{{ data }}</span>
+    {% endif %}
+{% endfor %}
+<br>
+<br>
+dict: {{dict.book}},{{dict.view}},{{dict.hehe}}<br><br>
+{% for key, value in dict.items %}
+{{ key }}:{{ value }}<br>
+{% endfor %}
+
+</body>
+</html>

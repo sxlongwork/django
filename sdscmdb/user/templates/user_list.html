@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block mbx %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-4">
+            <h2>用户展示</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a hreaf="{% url 'index' %}">首页</a>
+                </li>
+                <li>
+                    <a href="">用户管理</a>
+                </li>
+                <li>
+                    <a href="">用户展示</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block body %}
+    <div class="col-lg-12">
+
+        <div class="ibox float-e-margins">
+
+            <div class="ibox-title">
+                <h5>用户展示 </h5>
+            </div>
+            <div class="ibox-content">
+            <a type="button" class="btn btn-w-m btn-primary" href="{% url 'useradd' %}">添加用户</a>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">用户名</th>
+                        <th class="text-center">邮箱</th>
+                        <th class="text-center">微信</th>
+                        <th class="text-center">中文名</th>
+                        <th class="text-center">电话</th>
+                        <th class="text-center">激活状态</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in object_list %}
+                        <tr>
+                            <td class="text-center">{{ user.username }}</td>
+                            <td class="text-center">{{ user.email }}</td>
+                            <td class="text-center">{{ user.prifile.wechat }}</td>
+                            <td class="text-center">{{ user.prifile.name_cn }}</td>
+                            <td class="text-center">{{ user.prifile.phone }}</td>
+                            {% if user.is_active == 1 %}
+                                <td class="text-center"><i class="fa fa-circle text-navy"></i></td>
+                            {% else %}
+                                <td class="text-center"><i class="fa fa-circle text-danger"></i></td>
+                            {% endif %}
+                            <td class="text-center">
+                                {% if user.is_active %}
+                                    <a type="button" class="btn btn-sm btn-warning" onclick="userstatus({{ user.id }})">禁用</a>
+                                {% else %}
+                                    <a type="button" class="btn btn-sm btn-info" onclick="userstatus({{ user.id }})">启用</a>
+                                {% endif %}
+                                <a type="button" class="btn btn-primary btn-sm" href="{% url 'userupdate' %}?id={{ user.id }}">更新</a>
+                                <a type="button" class="btn btn-danger btn-sm" onclick="userdelete({{ user.id }})">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <center>
+                    <div class="btn-group">
+                        {% if page_obj.has_previous %}
+                            <a type="button" class="btn btn-white"
+                               href="{% url 'userlist' %}?page={{ page_obj.previous_page_number }}"><i
+                                    class="fa fa-chevron-left"></i></a>
+                        {% else %}
+                            <a type="button" class="btn btn-white" href="#"><i class="fa fa-chevron-left"></i></a>
+                        {% endif %}
+                        {% for page in paginator.page_range %}
+                            {% if page_obj.number == page %}
+                                <a class="btn btn-white active"
+                                   href="{% url 'userlist' %}?page={{ page }}">{{ page }}</a>
+                            {% else %}
+                                <a class="btn btn-white" href="{% url 'userlist' %}?page={{ page }}">{{ page }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <a type="button" class="btn btn-white"
+                               href="{% url 'userlist' %}?page={{ page_obj.next_page_number }}"><i
+                                    class="fa fa-chevron-right"></i></a>
+                        {% else %}
+                            <a type="button" class="btn btn-white" href="#"><i class="fa fa-chevron-right"></i></a>
+                        {% endif %}
+
+                    </div>
+                </center>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block load_js %}
+    <script>
+        function userdelete(id) {
+            var str = {'id': id}
+            $.get('{% url 'userdelete' %}', str, function (res) {
+                if (res.status == 0) {
+                    swal({
+                        title: res.msg,
+                        type: 'success',
+                        confirmButtonText: "确定"
+                    },function () {
+                        location.reload()
+                    });
+                } else {
+                    swal({
+                        title: res.msg,
+                        type: 'error',
+                        confirmButtonText: "确定"
+                    });
+                }
+            })
+
+        }
+        function userstatus(id) {
+            var str = {'id': id}
+            $.get('{% url 'userstatus' %}', str, function (res) {
+                if (res.status == 0) {
+                    swal({
+                        title: res.msg,
+                        type: 'success',
+                        confirmButtonText: "确定"
+                    },function () {
+                        location.reload()
+                    });
+                } else {
+                    swal({
+                        title: res.msg,
+                        type: 'error',
+                        confirmButtonText: "确定"
+                    });
+                }
+            })
+
+        }
+    </script>
+{% endblock %}

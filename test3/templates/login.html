@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css">
+    <script src="/static/js/jquery-1.12.4.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <title>登录</title>
+</head>
+<body>
+<div>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="username" class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="username" name="username" placeholder="用户名" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">密码</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="password" name="password" placeholder="密码"
+                       required>
+            </div>
+        </div>
+        <div class="form-group">
+            <span id="message" class="col-sm-2 control-label" style="display:none"></span>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="button" class="btn btn-default" id="login" value="Login In"></input>
+            </div>
+        </div>
+    </form>
+
+</div>
+<script type="text/javascript">
+
+        $('#login').click(function(){
+            username = $('#username').val();
+            password = $('#password').val();
+            $.ajax({
+            url: '/login_check?',
+            <!--data: {'username': username,'password': password},-->
+            <!--以下方法传参数也可以-->
+            data: 'username='+username+'&password='+password,
+            type: 'post',
+            success: function (param) {
+                if(param == 'Login success')
+                {
+                    alert('Success')
+                }
+                else
+                {
+                    <!--window.location.href='/login'-->
+                    $('#message').css('display','inherit');
+                    $('#message').text("username or password is wrong")
+                }
+            }
+        })
+        })
+
+
+</script>
+</body>
+</html>
